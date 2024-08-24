@@ -88,7 +88,20 @@ def jacobi(A, b, x0, tol, max_iter):
 # Función para generar el vector b con una "flecha" en el centro
 def generar_vector_b(n):
     b = np.zeros(n)
-    b[n // 2] = 100  # Asignar una carga en el centro
+    centro = n // 2
+    valor_minimo = 10  # Valor mínimo en los extremos
+    valor_maximo = 100  # Valor máximo en el centro
+
+    # Calcular pendiente de la disminución lineal
+    pendiente = (valor_maximo - valor_minimo) / (centro if centro != 0 else 1)
+
+    # Asignar valores decrecientes desde el centro hacia los extremos
+    for i in range(n):
+        distancia_al_centro = abs(i - centro)
+        b[i] = valor_maximo - (distancia_al_centro * pendiente)
+        # Asegurar que no sea menor que el valor mínimo
+        b[i] = max(b[i], valor_minimo)
+
     return b
 
 # Calcular error relativo entre la solución actual y la solución de referencia
