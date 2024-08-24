@@ -101,13 +101,24 @@ def gauss_seidel_redondeo(A, b, x0):
 # Función para generar el vector b con una "flecha" en el centro
 def generar_vector_b(n):
     b = np.zeros(n)
-    b[n // 2] = 100  # Asignar una carga en el centro
+    centro = n // 2
+    valor_minimo = 10  # Valor mínimo en los extremos
+    valor_maximo = 100  # Valor máximo en el centro
+
+    # Calcular pendiente de la disminución lineal
+    pendiente = (valor_maximo - valor_minimo) / (centro if centro != 0 else 1)
+
+    # Asignar valores decrecientes desde el centro hacia los extremos
+    for i in range(n):
+        distancia_al_centro = abs(i - centro)
+        b[i] = valor_maximo - (distancia_al_centro * pendiente)
+        # Asegurar que no sea menor que el valor mínimo
+        b[i] = max(b[i], valor_minimo)
+
     return b
 
 # Realizar el proceso iterativo para un tamaño específico de n
 def resolver_sistema_para_n(n):
-    tol = 1e-5
-    max_iter = 100
 
     print(f"\nResolviendo sistema con n = {n}")
 
@@ -125,10 +136,10 @@ def resolver_sistema_para_n(n):
     print(f"Número de condición de la matriz A: {cond_A:.5e}")
 
     # Resolver usando Gauss-Seidel con aritmética de corte
-    gauss_seidel_corte(A, b, x0, tol, max_iter)
+    gauss_seidel_corte(A, b, x0)
 
     # Resolver usando Gauss-Seidel con redondeo
-    gauss_seidel_redondeo(A, b, x0, tol, max_iter)
+    gauss_seidel_redondeo(A, b, x0)
 
 # Ejecutar el proceso para un tamaño específico de n
 resolver_sistema_para_n(8)  # Aquí se puede ajustar el valor de n
