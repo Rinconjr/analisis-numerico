@@ -1,37 +1,7 @@
+# Solucion con matriz del punto b,  se calculan las tres primeras iteraciones con aritmética de corte y redondeo con sus respectivos
+# errores relativos y absolutos. Se muestra el número de condición de la matriz A. Se resuelve el sistema para n=6 a n=15.
+
 import numpy as np
-
-def generar_matriz_viga(n):
-    A = np.zeros((n, n))  # Crear una matriz de ceros de tamaño n x n
-
-    # Asignar los valores de la diagonal principal
-    for i in range(n):
-        if i == 0:
-            A[i, i] = 12
-        elif i == n - 1:
-            A[i, i] = -12
-        else:
-            A[i, i] = 6
-
-    # Asignar los valores de las diagonales superiores e inferiores
-    for i in range(n - 1):
-        if i == 0 or i == n - 2:
-            A[i, i + 1] = -6
-            A[i + 1, i] = -6
-        else:
-            A[i, i + 1] = -4
-            A[i + 1, i] = -4
-
-    # Asignar los valores de las segundas diagonales superiores e inferiores
-    for i in range(n - 2):
-        if i == 0 or i == n - 3:
-            A[i, i + 2] = 4 / 3
-            A[i + 2, i] = 4 / 3
-        else:
-            A[i, i + 2] = 1
-            A[i + 2, i] = 1
-
-    return A
-
 
 def generar_matriz_viga_voladizo(n):
     A = np.zeros((n, n))  # Crear una matriz de ceros de tamaño n x n
@@ -172,7 +142,7 @@ def resolver_sistema_viga_voladizo():
         print(f"\nResolviendo sistema con n = {n}")
 
         # Generar matriz A y vector b
-        A = generar_matriz_viga_voladizo(n) # IMPORTANTE: Aca se puede cambiar para que genere la otra matriz (generar_matriz_viga(n))
+        A = generar_matriz_viga_voladizo(n)
         b = generar_vector_b(n)
         x0 = np.zeros(n)  # Aproximación inicial (0, 0, ..., 0)
 

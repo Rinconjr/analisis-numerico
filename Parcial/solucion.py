@@ -1,3 +1,6 @@
+# Esta es la solución general que muestra las primeras 100 iteraciones de Gauss-Seidel y Jacobi para n=6 a n=15.
+# Se usa para ver la convergencia de los métodos y comparar los resultados obtenidos.
+
 import numpy as np
 
 def generar_matriz_viga(n):
@@ -29,6 +32,54 @@ def generar_matriz_viga(n):
         else:
             A[i, i + 2] = 1
             A[i + 2, i] = 1
+
+    return A
+
+def generar_matriz_viga_voladizo(n):
+    A = np.zeros((n, n))  # Crear una matriz de ceros de tamaño n x n
+
+    # Asignar los valores de la diagonal principal y las subdiagonales
+    for i in range(n):
+        if i == 0:
+            A[i, i] = 12
+            if i + 1 < n:
+                A[i, i + 1] = -6
+            if i + 2 < n:
+                A[i, i + 2] = 4 / 3
+        elif i == n - 1:  # Última fila
+            A[i, i] = -1
+            if i - 1 >= 0:
+                A[i, i - 1] = 24 / 25
+            if i - 2 >= 0:
+                A[i, i - 2] = 12 / 25
+        elif i == n - 2:  # Penúltima fila
+            A[i, i] = 6
+            if i + 1 < n:
+                A[i, i + 1] = -93 / 25
+            if i - 1 >= 0:
+                A[i, i - 1] = -4
+            if i - 2 >= 0:
+                A[i, i - 2] = 1
+        elif i == n - 3:  # Tercera desde el final
+            A[i, i] = 6
+            if i + 1 < n:
+                A[i, i + 1] = -4
+            if i + 2 < n:
+                A[i, i + 2] = 111 / 25  # Aquí colocamos el valor 111 / 25 en la posición correcta
+            if i - 1 >= 0:
+                A[i, i - 1] = -4
+            if i - 2 >= 0:
+                A[i, i - 2] = 1
+        else:  # Resto de la matriz
+            A[i, i] = 6
+            if i + 1 < n:
+                A[i, i + 1] = -4
+            if i + 2 < n:
+                A[i, i + 2] = 1
+            if i - 1 >= 0:
+                A[i, i - 1] = -4
+            if i - 2 >= 0:
+                A[i, i - 2] = 1
 
     return A
 
@@ -117,7 +168,8 @@ def resolver_sistema_gauss_jacobi():
     tol = 1e-5
     max_iter = 100
 
-    for n in range(6, 16):  # De n=6 a n=8
+    # IMPORTANTE: Modificar aqui para analisis de resultados
+    for n in range(6, 8):  # De n=6 a n=8
         print(f"\nResolviendo sistema con n = {n}")
 
         # Generar matriz A y vector b
@@ -135,15 +187,11 @@ def resolver_sistema_gauss_jacobi():
 
         # Resolver usando Gauss-Seidel
         print("\nSolución con Gauss-Seidel:")
-        x_gs = gauss_seidel(A, b, x0, tol, max_iter)
+        gauss_seidel(A, b, x0, tol, max_iter)
         
         # Resolver usando Jacobi
         print("\nSolución con Jacobi:")
-        x_jacobi = jacobi(A, b, x0, tol, max_iter)
-
-        # Comparar errores relativos entre ambos métodos (usando Gauss-Seidel como referencia)
-        error_jacobi_vs_gs = calcular_error(x_jacobi, x_gs)
-        print(f"\nError relativo Jacobi vs Gauss-Seidel: {error_jacobi_vs_gs:.5e}")
+        jacobi(A, b, x0, tol, max_iter)
 
 # Ejecutar el proceso para varios tamaños de n
 resolver_sistema_gauss_jacobi()
