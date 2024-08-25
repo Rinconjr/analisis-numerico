@@ -46,6 +46,7 @@ def gauss_seidel(A, b, x0, tol, max_iter):
     n = len(A)
     x = np.copy(x0)
 
+    # Mostrar los valores de x en cada iteración
     print(f"Iteración 0: x1 = {x[0]:.5f}, x2 = {x[1]:.5f}, x3 = {x[2]:.5f}")
 
     for iteration in range(max_iter):
@@ -55,6 +56,7 @@ def gauss_seidel(A, b, x0, tol, max_iter):
             s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
             x_new[i] = (b[i] - s1 - s2) / A[i][i]
 
+        # Mostrar los valores de x en cada iteración
         print(f"Iteración {iteration + 1}: {[f'{val:.5f}' for val in x_new]}")
 
         if np.linalg.norm(x_new - x) < tol:
@@ -68,6 +70,7 @@ def jacobi(A, b, x0, tol, max_iter):
     n = len(A)
     x = np.copy(x0)
 
+    # Mostrar los valores de x en cada iteración
     print(f"Iteración 0: x1 = {x[0]:.5f}, x2 = {x[1]:.5f}, x3 = {x[2]:.5f}")
 
     for iteration in range(max_iter):
@@ -76,6 +79,7 @@ def jacobi(A, b, x0, tol, max_iter):
             s = sum(A[i][j] * x[j] for j in range(n) if j != i)
             x_new[i] = (b[i] - s) / A[i][i]
 
+        # Mostrar los valores de x en cada iteración
         print(f"Iteración {iteration + 1}: x1 = {x_new[0]:.5f}, x2 = {x_new[1]:.5f}, x3 = {x_new[2]:.5f}")
 
         if np.linalg.norm(x_new - x, ord=np.inf) < tol:
@@ -113,7 +117,7 @@ def resolver_sistema_gauss_jacobi():
     tol = 1e-5
     max_iter = 100
 
-    for n in range(6, 8):  # De n=6 a n=8
+    for n in range(6, 16):  # De n=6 a n=8
         print(f"\nResolviendo sistema con n = {n}")
 
         # Generar matriz A y vector b

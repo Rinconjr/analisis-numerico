@@ -32,6 +32,56 @@ def generar_matriz_viga(n):
 
     return A
 
+
+def generar_matriz_viga_voladizo(n):
+    A = np.zeros((n, n))  # Crear una matriz de ceros de tamaño n x n
+
+    # Asignar los valores de la diagonal principal y las subdiagonales
+    for i in range(n):
+        if i == 0:
+            A[i, i] = 12
+            if i + 1 < n:
+                A[i, i + 1] = -6
+            if i + 2 < n:
+                A[i, i + 2] = 4 / 3
+        elif i == n - 1:  # Última fila
+            A[i, i] = -1
+            if i - 1 >= 0:
+                A[i, i - 1] = 24 / 25
+            if i - 2 >= 0:
+                A[i, i - 2] = 12 / 25
+        elif i == n - 2:  # Penúltima fila
+            A[i, i] = 6
+            if i + 1 < n:
+                A[i, i + 1] = -93 / 25
+            if i - 1 >= 0:
+                A[i, i - 1] = -4
+            if i - 2 >= 0:
+                A[i, i - 2] = 1
+        elif i == n - 3:  # Tercera desde el final
+            A[i, i] = 6
+            if i + 1 < n:
+                A[i, i + 1] = -4
+            if i + 2 < n:
+                A[i, i + 2] = 111 / 25  # Aquí colocamos el valor 111 / 25 en la posición correcta
+            if i - 1 >= 0:
+                A[i, i - 1] = -4
+            if i - 2 >= 0:
+                A[i, i - 2] = 1
+        else:  # Resto de la matriz
+            A[i, i] = 6
+            if i + 1 < n:
+                A[i, i + 1] = -4
+            if i + 2 < n:
+                A[i, i + 2] = 1
+            if i - 1 >= 0:
+                A[i, i - 1] = -4
+            if i - 2 >= 0:
+                A[i, i - 2] = 1
+
+    return A
+
+
 def imprimir_matriz(A):
     n = A.shape[0]
     encabezado = "    " + " ".join(["{:>6}".format(j + 1) for j in range(n)])
@@ -59,16 +109,15 @@ def gauss_seidel_corte(A, b, x0):
             x_new[i] = int((b[i] - s1 - s2) / A[i][i] * 1000) / 1000
 
         # Cálculo de errores relativo y absoluto
-        error_relativo = np.linalg.norm(x_new - x) / np.linalg.norm(x_new)
+        error_relativo = np.linalg.norm(x_new - x) / (np.linalg.norm(x) + 1e-10)
         error_absoluto = np.linalg.norm(x_new - x)
 
-        # Mostrar detalles de la iteración
+        # Mostrar detalles de la iteración solo una vez por iteración
         print(f"Iteración {iteration + 1}: {[f'{val:.3f}' for val in x_new]}, "
               f"Error Relativo: {error_relativo:.3e}, Error Absoluto: {error_absoluto:.3e}")
 
-        x = x_new
+        x = x_new  # Actualizar x para la siguiente iteración
 
-    return x
 
 def gauss_seidel_redondeo(A, b, x0):
     n = len(A)
@@ -117,29 +166,30 @@ def generar_vector_b(n):
 
     return b
 
-# Realizar el proceso iterativo para un tamaño específico de n
-def resolver_sistema_para_n(n):
+# Realizar el proceso iterativo para varios tamaños de n
+def resolver_sistema_viga_voladizo():
+    for n in range(6, 16):  # De n=6 a n=15
+        print(f"\nResolviendo sistema con n = {n}")
 
-    print(f"\nResolviendo sistema con n = {n}")
+        # Generar matriz A y vector b
+        A = generar_matriz_viga_voladizo(n) # IMPORTANTE: Aca se puede cambiar para que genere la otra matriz (generar_matriz_viga(n))
+        b = generar_vector_b(n)
+        x0 = np.zeros(n)  # Aproximación inicial (0, 0, ..., 0)
 
-    # Generar matriz A y vector b
-    A = generar_matriz_viga(n)
-    b = generar_vector_b(n)
-    x0 = np.zeros(n)  # Aproximación inicial (0, 0, ..., 0)
+        print("Matriz A:")
+        imprimir_matriz(A)
+        print("\nVector b:", b, "\n")
 
-    print("Matriz A:")
-    imprimir_matriz(A)
-    print("\nVector b:", b, "\n")
+        # Calcular número de condición de A
+        cond_A = np.linalg.cond(A)
+        print(f"Número de condición de la matriz A: {cond_A:.5e}")
 
-    # Calcular número de condición de A
-    cond_A = np.linalg.cond(A)
-    print(f"Número de condición de la matriz A: {cond_A:.5e}")
+        # Resolver usando Gauss-Seidel con aritmética de corte
+        gauss_seidel_corte(A, b, x0)
 
-    # Resolver usando Gauss-Seidel con aritmética de corte
-    gauss_seidel_corte(A, b, x0)
+        # Resolver usando Gauss-Seidel con redondeo
+        gauss_seidel_redondeo(A, b, x0)
 
-    # Resolver usando Gauss-Seidel con redondeo
-    gauss_seidel_redondeo(A, b, x0)
+# Ejecutar el proceso para varios tamaños de n
+resolver_sistema_viga_voladizo()
 
-# Ejecutar el proceso para un tamaño específico de n
-resolver_sistema_para_n(8)  # Aquí se puede ajustar el valor de n
