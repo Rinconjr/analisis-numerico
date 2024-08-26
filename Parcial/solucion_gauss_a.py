@@ -120,7 +120,7 @@ def generar_vector_b(n):
     return b
 
 # Realizar el proceso iterativo para varios tamaños de n
-def resolver_sistema_viga_voladizo():
+def resolver_sistema_viga_articulado():
     for n in range(6, 16):  # De n=6 a n=15
         print(f"\nResolviendo sistema con n = {n}")
 
@@ -144,5 +144,5 @@ def resolver_sistema_viga_voladizo():
         gauss_seidel_redondeo(A, b, x0)
 
 # Ejecutar el proceso para varios tamaños de n
-resolver_sistema_viga_voladizo()
+resolver_sistema_viga_articulado()
 
