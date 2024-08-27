@@ -4,82 +4,64 @@
 import numpy as np
 
 def generar_matriz_viga(n):
-    A = np.zeros((n, n)) # Crear una matriz de ceros de tamaño n x n
+    A = np.zeros((n, n))
 
-    # Asignar los valores de la diagonal principal
     for i in range(n):
         if i == 0:
             A[i, i] = 12
-        elif i == n - 1:
-            A[i, i] = -12
-        else:
+            A[i, i+1] = -6
+            A[i, i+2] = 4/3
+        elif i == 1:
+            A[i, i-1] = -4
             A[i, i] = 6
-
-    # Asignar los valores de las diagonales superiores e inferiores
-    for i in range(n - 1):
-        if i == 0 or i == n - 2:
-            A[i, i + 1] = -6
-            A[i + 1, i] = -6
+            A[i, i+1] = -4
+            A[i, i+2] = 1
+        elif i == n-1:
+            A[i, i-2] = 4/3
+            A[i, i-1] = 6
+            A[i, i] = -12
+        elif i == n-2:
+            A[i, i-2] = 1
+            A[i, i-1] = -4
+            A[i, i] = 6
+            A[i, i+1] = -4
         else:
-            A[i, i + 1] = -4
-            A[i + 1, i] = -4
-
-    # Asignar los valores de las segundas diagonales superiores e inferiores
-    for i in range(n - 2):
-        if i == 0 or i == n - 3:
-            A[i, i + 2] = 4 / 3
-            A[i + 2, i] = 4 / 3
-        else:
-            A[i, i + 2] = 1
-            A[i + 2, i] = 1
-
+            A[i, i-2] = 1
+            A[i, i-1] = -4
+            A[i, i] = 6
+            A[i, i+1] = -4
+            A[i, i+2] = 1
     return A
+    
 
 def generar_matriz_viga_voladizo(n):
-    A = np.zeros((n, n))  # Crear una matriz de ceros de tamaño n x n
+    # Crear una matriz de ceros de tamaño n x n
+    A = np.zeros((n, n))
 
-    # Asignar los valores de la diagonal principal y las subdiagonales
+    # Llenar la matriz
     for i in range(n):
         if i == 0:
             A[i, i] = 12
             if i + 1 < n:
                 A[i, i + 1] = -6
             if i + 2 < n:
-                A[i, i + 2] = 4 / 3
-        elif i == n - 1:  # Última fila
-            A[i, i] = -1
-            if i - 1 >= 0:
-                A[i, i - 1] = 24 / 25
-            if i - 2 >= 0:
-                A[i, i - 2] = 12 / 25
+                A[i, i + 2] = 4/3
         elif i == n - 2:  # Penúltima fila
+            A[i, i-2] = 1
+            A[i, i - 1] = -93/25
+            A[i, i] = 111/25
+            A[i, i + 1] = -43/25
+        elif i == n - 1:  # Última fila
+            A[i, i - 2] = 12/25
+            A[i, i - 1] = 24/25
+            A[i, i] = 12/25
+        else:
+            A[i, i-2] = 1
+            A[i, i - 1] = -4
             A[i, i] = 6
-            if i + 1 < n:
-                A[i, i + 1] = -93 / 25
-            if i - 1 >= 0:
-                A[i, i - 1] = -4
-            if i - 2 >= 0:
-                A[i, i - 2] = 1
-        elif i == n - 3:  # Tercera desde el final
-            A[i, i] = 6
-            if i + 1 < n:
-                A[i, i + 1] = -4
-            if i + 2 < n:
-                A[i, i + 2] = 111 / 25  # Aquí colocamos el valor 111 / 25 en la posición correcta
-            if i - 1 >= 0:
-                A[i, i - 1] = -4
-            if i - 2 >= 0:
-                A[i, i - 2] = 1
-        else:  # Resto de la matriz
-            A[i, i] = 6
-            if i + 1 < n:
-                A[i, i + 1] = -4
+            A[i, i + 1] = -4
             if i + 2 < n:
                 A[i, i + 2] = 1
-            if i - 1 >= 0:
-                A[i, i - 1] = -4
-            if i - 2 >= 0:
-                A[i, i - 2] = 1
 
     return A
 

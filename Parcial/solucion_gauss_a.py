@@ -4,35 +4,33 @@
 import numpy as np
 
 def generar_matriz_viga(n):
-    A = np.zeros((n, n))  # Crear una matriz de ceros de tamaño n x n
+    A = np.zeros((n, n))
 
-    # Asignar los valores de la diagonal principal
     for i in range(n):
         if i == 0:
             A[i, i] = 12
-        elif i == n - 1:
-            A[i, i] = -12
-        else:
+            A[i, i+1] = -6
+            A[i, i+2] = 4/3
+        elif i == 1:
+            A[i, i-1] = -4
             A[i, i] = 6
-
-    # Asignar los valores de las diagonales superiores e inferiores
-    for i in range(n - 1):
-        if i == 0 or i == n - 2:
-            A[i, i + 1] = -6
-            A[i + 1, i] = -6
+            A[i, i+1] = -4
+            A[i, i+2] = 1
+        elif i == n-1:
+            A[i, i-2] = 4/3
+            A[i, i-1] = 6
+            A[i, i] = -12
+        elif i == n-2:
+            A[i, i-2] = 1
+            A[i, i-1] = -4
+            A[i, i] = 6
+            A[i, i+1] = -4
         else:
-            A[i, i + 1] = -4
-            A[i + 1, i] = -4
-
-    # Asignar los valores de las segundas diagonales superiores e inferiores
-    for i in range(n - 2):
-        if i == 0 or i == n - 3:
-            A[i, i + 2] = 4 / 3
-            A[i + 2, i] = 4 / 3
-        else:
-            A[i, i + 2] = 1
-            A[i + 2, i] = 1
-
+            A[i, i-2] = 1
+            A[i, i-1] = -4
+            A[i, i] = 6
+            A[i, i+1] = -4
+            A[i, i+2] = 1
     return A
 
 def imprimir_matriz(A):
