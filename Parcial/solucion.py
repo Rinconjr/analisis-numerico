@@ -147,7 +147,7 @@ def resolver_sistema_gauss_jacobi():
     max_iter = 100
 
     # IMPORTANTE: Modificar aqui para analisis de resultados
-    for n in range(6, 8):  # De n=6 a n=8
+    for n in range(6, 16):  # De n=6 a n=15
         print(f"\nResolviendo sistema con n = {n}")
 
         # Generar matriz A y vector b
