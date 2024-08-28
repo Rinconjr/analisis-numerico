@@ -80,8 +80,6 @@ def gauss_seidel(A, b, x0, tol, max_iter):
     x = np.copy(x0)
 
     # Mostrar los valores de x en cada iteración
-    print(f"Iteración 0: x1 = {x[0]:.5f}, x2 = {x[1]:.5f}, x3 = {x[2]:.5f}")
-
     for iteration in range(max_iter):
         x_new = np.copy(x)
         for i in range(n):
@@ -104,8 +102,6 @@ def jacobi(A, b, x0, tol, max_iter):
     x = np.copy(x0)
 
     # Mostrar los valores de x en cada iteración
-    print(f"Iteración 0: x1 = {x[0]:.5f}, x2 = {x[1]:.5f}, x3 = {x[2]:.5f}")
-
     for iteration in range(max_iter):
         x_new = np.zeros_like(x)
         for i in range(n):
@@ -113,7 +109,7 @@ def jacobi(A, b, x0, tol, max_iter):
             x_new[i] = (b[i] - s) / A[i][i]
 
         # Mostrar los valores de x en cada iteración
-        print(f"Iteración {iteration + 1}: x1 = {x_new[0]:.5f}, x2 = {x_new[1]:.5f}, x3 = {x_new[2]:.5f}")
+        print(f"Iteración {iteration + 1}: {[f'{val:.5f}' for val in x_new]}")
 
         if np.linalg.norm(x_new - x, ord=np.inf) < tol:
             print(f"Convergió en la iteración {iteration + 1}")
