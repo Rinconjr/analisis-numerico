@@ -1,3 +1,9 @@
+# Funcion continua definida dentro del intervalo [a,b], si f(a) y f(b) tienen signos opuestos, 
+# el teorma del valor intermedio implica que existe un numero p donde f(p)=0, es decir, 
+# un numero en el cual se cruza el eje x. El metodo de biseccion localiza este numero p en un intervalo [a,b].
+# El metodo se repite varias veces en una reduccion a la mitad de los intervalos de [a,b]
+# y en cada paso localizar la mitad que contiene p.
+
 def biseccion(f, a, b, TOL, N0):
     # Paso 1
     i = 1

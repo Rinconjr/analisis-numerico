@@ -1,3 +1,7 @@
+# La iteración de punto fijo es una técnica numérica que nos permite aproximar
+# soluciones a ecuaciones de la forma p=g(p), es decir, 
+# encontrar el punto fijo de una función 𝑔 (𝑥) g(x), que es el valor 𝑝 p tal que 𝑔 (𝑝) = 𝑝 g(p)=p.
+
 import math
 
 def punto_fijo(g, p0, TOL, N0):
