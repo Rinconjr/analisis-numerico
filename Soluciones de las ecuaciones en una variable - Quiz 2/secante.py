@@ -1,3 +1,7 @@
+# Metodo mas eficiente que el de Newton porque
+# El metodo de la secante no necesita calcular la derivada, en su lugar,
+# utiliza una proximacion de la derivada basada en dos puntos cercanos sobre la curva de la funcion.
+
 def secante(f, p0, p1, TOL, N0):
     q0 = f(p0)
     q1 = f(p1)

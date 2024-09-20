@@ -1,5 +1,16 @@
+# p_n = p_(n-1) - f(p_(n-1))/f'(p_(n-1)) para n >= 1
+# Esta sale del polinomio de taylor de f(x) alrededor de p_(n-1) y se despeja p_n
+# 
+# p_n = g(p_(n-1)) para n >= 1
+# Donde la funcion g(x) se define como
+# g(x) = x - f(x)/f'(x)
+#
+# f debe ser C^2 y f'(x) != 0 para todo x en el intervalo de interes. asi mismo f(p) = 0.
+
 def newton(f, f_prime, p0, TOL, N0):
     i = 1
+
+    print(f"Iteración {i}: p = {p0}")
     
     while i <= N0:
         # Paso 3: Calcular la nueva aproximación
@@ -11,6 +22,8 @@ def newton(f, f_prime, p0, TOL, N0):
         
         # Paso 5: Incrementar el contador de iteraciones
         i += 1
+
+        print(f"Iteración {i}: p = {p}")
         
         # Paso 6: Actualizar p0 con la nueva aproximación
         p0 = p

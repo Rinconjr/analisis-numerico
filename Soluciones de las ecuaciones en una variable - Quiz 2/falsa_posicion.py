@@ -1,3 +1,8 @@
+# Al igual que el método de la secante, este método no requiere el cálculo de la derivada, pero se basa en elegir dos puntos iniciales
+# donde la función cambia de signo, similar al método de bisección.
+# Sin embargo, el método de la posición falsaes generalmente más eficiente que la bisección, ya que no utiliza el punto medio,
+# sino una línea secante entre los dos puntos.
+
 def falsa_posicion(f, p0, p1, TOL, N0):
     q0 = f(p0)
     q1 = f(p1)
