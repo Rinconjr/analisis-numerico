@@ -1,7 +1,3 @@
-# La iteración de punto fijo es una técnica numérica que nos permite aproximar
-# soluciones a ecuaciones de la forma p=g(p), es decir, 
-# encontrar el punto fijo de una función 𝑔 (𝑥) g(x), que es el valor 𝑝 p tal que 𝑔 (𝑝) = 𝑝 g(p)=p.
-
 import math
 
 def punto_fijo(g, p0, TOL, N0):
@@ -12,6 +8,9 @@ def punto_fijo(g, p0, TOL, N0):
     while i <= N0:
         # Paso 3
         p = g(p0)
+        
+        # Mostrar la solución actual en cada iteración
+        print(f"Iteración {i}: p = {p}")
         
         # Paso 4
         if abs(p - p0) < TOL:
@@ -27,9 +26,9 @@ def punto_fijo(g, p0, TOL, N0):
     print(f"El método falló después de {N0} iteraciones.")
     return None, i
 
-# Definimos la función g(x) que es la forma reescrita de la ecuación
+# Definimos la función g(x) como g2(x) = ln(10 / x)
 def g(x):
-    return (1/2) * math.sqrt(10 - x**3)
+    return math.log(10 / x)
 
 # Parámetros iniciales
 p0 = 1.5  # Aproximación inicial
@@ -40,6 +39,6 @@ N0 = 100  # Número máximo de iteraciones
 raiz, iteraciones = punto_fijo(g, p0, TOL, N0)
 
 if raiz is not None:
-    print(f"La solución aproximada es: {raiz} en {iteraciones} iteraciones")
+    print(f"\nLa solución aproximada es: {raiz} en {iteraciones} iteraciones")
 else:
     print(f"El método falló después de {iteraciones} iteraciones.")
