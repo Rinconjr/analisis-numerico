@@ -1,20 +1,17 @@
-# p_n = p_(n-1) - f(p_(n-1))/f'(p_(n-1)) para n >= 1
-# Esta sale del polinomio de taylor de f(x) alrededor de p_(n-1) y se despeja p_n
-# 
-# p_n = g(p_(n-1)) para n >= 1
-# Donde la funcion g(x) se define como
-# g(x) = x - f(x)/f'(x)
-#
-# f debe ser C^2 y f'(x) != 0 para todo x en el intervalo de interes. asi mismo f(p) = 0.
+import math
 
 def newton(f, f_prime, p0, TOL, N0):
     i = 1
 
-    print(f"Iteración {i}: p = {p0}")
+    #print(f"Iteración {i}: p = {p0}")
     
     while i <= N0:
         # Paso 3: Calcular la nueva aproximación
-        p = p0 - f(p0) / f_prime(p0)
+        try:
+            p = p0 - f(p0) / f_prime(p0)
+        except ZeroDivisionError:
+            print(f"Error en la iteración {i}: división por cero.")
+            return None, i
         
         # Paso 4: Verificar si la aproximación es suficiente
         if abs(p - p0) < TOL:
@@ -23,26 +20,25 @@ def newton(f, f_prime, p0, TOL, N0):
         # Paso 5: Incrementar el contador de iteraciones
         i += 1
 
-        print(f"Iteración {i}: p = {p}")
+        #print(f"Iteración {i}: p = {p}")
         
         # Paso 6: Actualizar p0 con la nueva aproximación
         p0 = p
     
     # Paso 7: Si no converge dentro de N0 iteraciones
-    print(f"El método falló después de {N0} iteraciones.")
+    #print(f"El método falló después de {N0} iteraciones.")
     return None, i
 
-# Ejemplo de uso:
-# Definimos la función f(x) = x^3 + 4x^2 - 10 y su derivada f'(x)
+# Definimos la función f(x) = x * e^x - 10 y su derivada f'(x) = e^x + x * e^x
 def f(x):
-    return x**3 + 4*x**2 - 10
+    return x * math.exp(x) - 10
 
 def f_prime(x):
-    return 3*x**2 + 8*x  # Derivada de f(x)
+    return math.exp(x) + x * math.exp(x)  # Derivada de f(x)
 
 # Parámetros iniciales
-p0 = 1.5  # Aproximación inicial
-TOL = 1e-4  # Tolerancia
+p0 = 2  # Aproximación inicial cercana a la solución
+TOL = 1e-6  # Tolerancia
 N0 = 100  # Número máximo de iteraciones
 
 # Ejecutamos el método de Newton
@@ -50,5 +46,5 @@ raiz, iteraciones = newton(f, f_prime, p0, TOL, N0)
 
 if raiz is not None:
     print(f"La solución aproximada es: {raiz} en {iteraciones} iteraciones")
-else:
-    print(f"El método falló después de {iteraciones} iteraciones.")
+#else:
+    #print(f"El método falló después de {iteraciones} iteraciones.")
