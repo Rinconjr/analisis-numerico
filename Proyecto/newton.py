@@ -5,7 +5,7 @@ import pandas as pd
 
 # 1. Cargar el dataset
 # Cargamos el dataset desde el archivo CSV en la ruta proporcionada
-df = pd.read_csv(r'C:\Users\sanya\Desktop\ProyectoNumerico\dataset_desercion_estudiantil_promedio_ajustado_95.csv', sep=';')
+df = pd.read_csv(r'dataset_desercion_estudiantil_promedio_ajustado_95.csv', sep=';')
 
 # Preparamos los datos (features y etiquetas)
 # Seleccionamos las características relevantes para la regresión logística
