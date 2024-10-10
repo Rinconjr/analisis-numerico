@@ -4,17 +4,17 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, roc_auc_score
 
 # 1. Cargar el dataset con el separador correcto
-df = pd.read_csv(r'dataset_desercion_estudiantil.csv', sep=';')
+df = pd.read_csv(r'../dataset_desercion_estudiantil.csv', sep=';')
 
-# Preparamos los datos (features y etiquetas)
-X = df[['Materias_inscritas', 'Promedio_estudiantil', 'Horas_estudio_por_semana', 'Edad']]  # Características relevantes
+# Preparamos los datos (solo "Horas_estudio_por_semana" como característica)
+X = df[['Horas_estudio_por_semana']]  # Solo usamos la variable Horas de estudio
 y = df['Desercion']  # Etiqueta (0 o 1)
 
 # Añadimos la columna de unos (intercepto) a X
 X = np.hstack((np.ones((X.shape[0], 1)), X))
 
-# Convertimos y a un array de NumPy y lo ajustamos en un vector columna
-y = y.to_numpy().reshape(-1, 1)
+# Convertimos y a un vector columna
+y = y.values.reshape(-1, 1)
 
 # 2. Definir la función de costo logístico
 def sigmoid(z):
@@ -54,7 +54,7 @@ def weierstrass(X, y, iterations=10, tol=1e-5):
     
     return theta
 
-# 5. Entrenar el modelo con el Método de Weierstrass
+# 5. Entrenar el modelo con el Método de Weierstrass usando solo "Horas_estudio_por_semana"
 theta_weierstrass = weierstrass(X, y, iterations=10)
 
 # 6. Evaluar el modelo con probabilidades usando el método de Weierstrass
@@ -72,7 +72,7 @@ roc_auc = roc_auc_score(y, probabilities_weierstrass)
 plt.figure(figsize=(8, 6))
 plt.plot(fpr, tpr, label=f'ROC curve (AUC = {roc_auc:.2f})', color='blue')
 plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Random')
-plt.title('Curva ROC para Deserción de Estudiantes (Método de Weierstrass)')
+plt.title('Curva ROC para Deserción de Estudiantes (Horas de Estudio - Método de Weierstrass)')
 plt.xlabel('Tasa de Falsos Positivos')
 plt.ylabel('Tasa de Verdaderos Positivos')
 plt.legend(loc='lower right')
@@ -82,7 +82,7 @@ plt.show()
 plt.figure(figsize=(10, 6))
 plt.hist(probabilities_weierstrass[y == 0], bins=20, alpha=0.5, label="No Deserta", color="blue")
 plt.hist(probabilities_weierstrass[y == 1], bins=20, alpha=0.5, label="Deserta", color="red")
-plt.title("Distribución de Probabilidades de Deserción (Método de Weierstrass)")
+plt.title("Distribución de Probabilidades de Deserción (Horas de Estudio - Método de Weierstrass)")
 plt.xlabel("Probabilidad de Deserción")
 plt.ylabel("Frecuencia")
 plt.legend()

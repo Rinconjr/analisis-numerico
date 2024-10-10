@@ -2,12 +2,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, roc_auc_score
+from mpl_toolkits.mplot3d import Axes3D
 
 # 1. Cargar el dataset con el separador correcto
-df = pd.read_csv(r'dataset_desercion_estudiantil.csv', sep=';')
+df = pd.read_csv(r'../dataset_desercion_estudiantil.csv', sep=';')
 
-# Preparamos los datos (features y etiquetas)
-X = df[['Materias_inscritas', 'Promedio_estudiantil', 'Horas_estudio_por_semana', 'Edad']]  # Características relevantes
+# Preparamos los datos (solo Horas como característica)
+X = df[['Horas_estudio_por_semana']]  # Solo la característica de Horas
 y = df['Desercion']  # Etiqueta (0 o 1)
 
 # Añadimos la columna de unos (intercepto) a X
@@ -48,7 +49,7 @@ def newton_raphson(X, y, iterations=10):
     
     return theta
 
-# 5. Entrenar el modelo con Newton-Raphson
+# 5. Entrenar el modelo con Newton-Raphson (solo con Promedio_estudiantil)
 theta_final = newton_raphson(X, y, iterations=10)
 
 # 6. Evaluar el modelo con probabilidades
@@ -66,7 +67,7 @@ roc_auc = roc_auc_score(y, probabilities)
 plt.figure(figsize=(8, 6))
 plt.plot(fpr, tpr, label=f'ROC curve (AUC = {roc_auc:.2f})', color='blue')
 plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Random')
-plt.title('Curva ROC para Deserción de Estudiantes')
+plt.title('Curva ROC para Deserción de Estudiantes (Horas de Estudio)')
 plt.xlabel('Tasa de Falsos Positivos')
 plt.ylabel('Tasa de Verdaderos Positivos')
 plt.legend(loc='lower right')
@@ -76,7 +77,7 @@ plt.show()
 plt.figure(figsize=(10, 6))
 plt.hist(probabilities[y == 0], bins=20, alpha=0.5, label="No Deserta", color="blue")
 plt.hist(probabilities[y == 1], bins=20, alpha=0.5, label="Deserta", color="red")
-plt.title("Distribución de Probabilidades de Deserción")
+plt.title("Distribución de Probabilidades de Deserción (Horas de Estudio)")
 plt.xlabel("Probabilidad de Deserción")
 plt.ylabel("Frecuencia")
 plt.legend()

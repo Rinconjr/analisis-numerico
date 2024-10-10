@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # Para la gráfica en 3D
 
 # 1. Cargar el dataset con el separador correcto
-df = pd.read_csv(r'dataset_desercion_estudiantil.csv', sep=';')
+df = pd.read_csv(r'../dataset_desercion_estudiantil.csv', sep=';')
 
 # Preparamos los datos (solo Horas de estudio como característica)
 X = df[['Horas_estudio_por_semana']]  # Solo la característica de Horas
